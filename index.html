@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>배관도면 v2</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="styles.css">
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'))}</script>
+</head>
+<body>
+<header>
+  <img src="icon-192.png" width="24" height="24" alt="icon">
+  <h1>배관도면 v2</h1>
+  <div style="margin-left:auto" id="a2hs"></div>
+</header>
+
+<div class="container">
+  <div class="card">
+    <label>① 구조 선택</label>
+    <div class="toolbar" id="structBtns">
+      <button class="btn" data-shape="HLINE">가로 1자</button>
+      <button class="btn" data-shape="VLINE">세로 I자</button>
+      <button class="btn" data-shape="RECT">네모(사각)</button>
+    </div>
+    <div class="small">구조를 고르면 기본 축이 생성됩니다.</div>
+  </div>
+
+  <div class="card">
+    <label>② 구성부품 추가</label>
+    <div class="toolbar">
+      <button class="btn" onclick="addPart('PIPE')">배관</button>
+      <button class="btn" onclick="addPart('VALVE')">밸브</button>
+      <button class="btn" onclick="addPart('TRAP')">트랩</button>
+      <button class="btn" onclick="addPart('TEE')">티</button>
+      <button class="btn" onclick="clearParts()">초기화</button>
+    </div>
+    <table>
+      <thead><tr><th>#</th><th>부품</th><th>길이(mm)</th><th>방향(밸브/트랩)</th><th></th></tr></thead>
+      <tbody id="partsT"></tbody>
+      <tfoot><tr><th colspan="2">총 길이</th><th id="totalLen">0</th><th colspan="2"></th></tr></tfoot>
+    </table>
+  </div>
+
+  <div class="card">
+    <label>③ 재질 선택</label>
+    <div class="toolbar" id="matBtns">
+      <button class="btn" data-mat="CS70">CS70</button>
+      <button class="btn" data-mat="CS80">CS80</button>
+      <button class="btn" data-mat="CS90">CS90</button>
+      <button class="btn" data-mat="STS304">STS304</button>
+      <button class="btn" data-mat="STS316">STS316</button>
+    </div>
+    <div class="small">도면 표제란 및 주기 자동 반영</div>
+  </div>
+
+  <div class="card">
+    <label>④ 크기 선택 (인치)</label>
+    <div class="toolbar" id="sizeBtns"></div>
+  </div>
+
+  <div class="card">
+    <label>⑤ 설비 정보</label>
+    <div class="row">
+      <div><label>설비 이름</label><input id="equipName" placeholder="예) 블로우다운 라인"></div>
+      <div><label>설비 위치</label><input id="equipLoc" placeholder="예) 3호기 보일러 #2"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label>미리보기</label>
+    <div id="stage"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="toolbar" style="margin-top:8px">
+      <span class="badge">재질: <span id="matView">-</span></span>
+      <span class="badge">크기: <span id="sizeView">-</span></span>
+    </div>
+    <div class="toolbar" style="margin-top:8px">
+      <button class="btn" onclick="saveSVG()">SVG</button>
+      <button class="btn" onclick="savePNG()">PNG</button>
+    </div>
+  </div>
+</div>
+
+<footer class="small" style="text-align:center;padding:12px">오프라인 동작 · 홈화면 추가 가능</footer>
+
+<script src="app.js"></script>
+</body></html>
